@@ -4,42 +4,64 @@ struct node{
     int value;
     struct node *next;
 };
-struct node *head=NULL,*newnode,*temp;
+struct node *head=NULL,*temp,*newnode;
+int isempty(){
+    return(head==NULL);
+}
 void insert()
 {
     newnode=(struct node *)malloc(sizeof(struct node));
-    printf("\nenter the value:");
+    printf("\nenter the element:");
     scanf("%d",&newnode->value);
     newnode->next=NULL;
-    if(head==NULL)
+    if(isempty())
     {
         head=temp=newnode;
     }
     else{
-        temp->next=newnode;
+        temp->next = newnode;
         temp=newnode;
     }
 }
 void delete()
 {
     struct node *prevnode;
-    temp=head;
-    while(temp->next!= NULL)
+    if(isempty())
     {
-        prevnode=temp;
-        temp=temp->next;
+        printf("\nempty list\n");
     }
-    printf("\n%d popped\n",temp->value);
-    prevnode->next=NULL;
-    temp=prevnode;
+    else{
+        temp=head;
+        while(temp->next != NULL){
+            prevnode=temp;
+            temp=temp->next;
+        }
+        if(head==temp)
+        {
+            printf("\n%d deleted",temp->value);
+            free(head);
+            head=temp=NULL;
+            return;
+        }
+        printf("\n%d deleted",temp->value);
+        prevnode->next=NULL;
+        free(temp);
+        temp=prevnode;
+    }
 }
 void display()
 {
     temp=head;
-    do{
-        printf("%d\t",temp->value);
-        temp=temp->next;
-    }while(temp != NULL);
+    if(isempty())
+    {
+        printf("\nempty\n");
+    }
+    else{
+        do{
+            printf("%d\t",temp->value);
+            temp=temp->next;
+        }while(temp!=NULL);
+    }
 }
 int main()
 {
@@ -59,8 +81,6 @@ int main()
                 break;
             case 4:
                 return 0;
-            default:
-                break;  
         }
     }while(1);
     return 0;
